@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.bring-to-front" path="/org/gnome/shell/extensions/bring-to-front/">
+
+    <key name="toggle-front" type="as">
+      <default>["&lt;Control&gt;&lt;Alt&gt;f"]</default>
+      <summary>Toggle bring-to-front</summary>
+      <description>Keyboard shortcut to toggle the focused window between resting and front positions.</description>
+    </key>
+
+    <key name="front-width" type="i">
+      <default>1200</default>
+      <summary>Front position window width (px)</summary>
+    </key>
+
+    <key name="front-height" type="i">
+      <default>800</default>
+      <summary>Front position window height (px)</summary>
+    </key>
+
+  </schema>
+</schemalist>
