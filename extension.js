@@ -63,19 +63,31 @@ const toggleFront = () => {
 
   const frontW = _settings.get_int('front-width')
   const frontH = _settings.get_int('front-height')
+  const frontLargeW = _settings.get_int('front-large-width')
+  const frontLargeH = _settings.get_int('front-large-height')
+
   const workArea = getWorkAreaForWindow(metaWindow)
   const frontRect = centeredRect(workArea, frontW, frontH)
-  console.log(`[BringToFront] ${frontW}x${frontH}`)
+  const frontLargeRect = centeredRect(workArea, frontLargeW, frontLargeH)
 
   const state = _windowState.get(metaWindow)
 
-  if (state && isFront(metaWindow, frontRect)) {
-    // We are in front position — restore resting
-    const r = state.resting
-    metaWindow.move_resize_frame(false, r.x, r.y, r.width, r.height)
-    _windowState.delete(metaWindow)
+  if (state) {
+    if (isFront(metaWindow, frontRect)) {
+      // In Size A -> move to Size B
+      metaWindow.move_resize_frame(false, frontLargeRect.x, frontLargeRect.y, frontLargeRect.width, frontLargeRect.height)
+    } else if (isFront(metaWindow, frontLargeRect)) {
+      // In Size B -> restore resting
+      const r = state.resting
+      metaWindow.move_resize_frame(false, r.x, r.y, r.width, r.height)
+      _windowState.delete(metaWindow)
+    } else {
+      // Moved manually — start over at Size A
+      _windowState.set(metaWindow, { resting: frameRectOf(metaWindow) })
+      metaWindow.move_resize_frame(false, frontRect.x, frontRect.y, frontRect.width, frontRect.height)
+    }
   } else {
-    // Save current resting position, move to front
+    // Save current resting position, move to Size A
     _windowState.set(metaWindow, { resting: frameRectOf(metaWindow) })
     metaWindow.move_resize_frame(false, frontRect.x, frontRect.y, frontRect.width, frontRect.height)
   }

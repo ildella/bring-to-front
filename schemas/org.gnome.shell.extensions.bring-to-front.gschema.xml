@@ -18,5 +18,15 @@
       <summary>Front position window height (px)</summary>
     </key>
 
+    <key name="front-large-width" type="i">
+      <default>1600</default>
+      <summary>Front position window (large) width (px)</summary>
+    </key>
+
+    <key name="front-large-height" type="i">
+      <default>1000</default>
+      <summary>Front position window (large) height (px)</summary>
+    </key>
+
   </schema>
 </schemalist>
