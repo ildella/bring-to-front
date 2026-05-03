@@ -1,0 +1,24 @@
+# Build Artifacts
+build/
+_build/
+*.zip
+
+# Compiled GSettings schemas (Always ignore, generated locally)
+schemas/gschemas.compiled
+gschemas.compiled
+
+# JavaScript & Tooling
+node_modules/
+.eslintcache
+package-lock.json
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# System
+.cache/
+*.log
