@@ -20,7 +20,7 @@ export default class BringToFrontPreferences extends ExtensionPreferences {
     // 2. Shortcut Group
     const groupShortcut = new Adw.PreferencesGroup({
       title: 'Keyboard Shortcut',
-      description: 'The string format follows GNOME shortcut syntax (e.g. <Control><Alt>f)',
+      description: 'Modifiers must be capitalized and in brackets: <Control>, <Alt>, <Super>, <Shift>. Example: <Control><Alt>f',
     })
     page.add(groupShortcut)
 
