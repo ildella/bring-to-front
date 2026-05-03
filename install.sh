@@ -1,36 +1,29 @@
-#!/usr/bin/env bash
-# install.sh — copy extension and compile schema
+#!/bin/bash
 
-set -euo pipefail
+set -e
 
-EXTENSION_UUID="bring-to-front@local"
-EXTENSION_DIR="$HOME/.local/share/gnome-shell/extensions/$EXTENSION_UUID"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+UUID="bring-to-front@local"
+EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 
-echo "→ Installing $EXTENSION_UUID to $EXTENSION_DIR"
-mkdir -p "$EXTENSION_DIR/schemas"
+echo "Installing GNOME extension '$UUID'..."
 
-cp "$SCRIPT_DIR/metadata.json"  "$EXTENSION_DIR/"
-cp "$SCRIPT_DIR/extension.js"   "$EXTENSION_DIR/"
-cp "$SCRIPT_DIR/schemas/"*.xml  "$EXTENSION_DIR/schemas/"
+# Create extension directory
+mkdir -p "$EXT_DIR"
 
-echo "→ Compiling GSettings schema"
-glib-compile-schemas "$EXTENSION_DIR/schemas/"
+# Copy essential files
+cp extension.js metadata.json "$EXT_DIR/"
 
-echo "→ Enabling extension (you may need to log out/in on Wayland)"
-gnome-extensions enable "$EXTENSION_UUID" 2>/dev/null || true
+# Handle schemas
+if [ -d "schemas" ]; then
+    echo "Copying and compiling schemas..."
+    cp -r schemas "$EXT_DIR/"
+    glib-compile-schemas "$EXT_DIR/schemas/"
+fi
 
-echo ""
-echo "✓ Done."
-echo ""
-echo "On Wayland you cannot restart gnome-shell in-session."
-echo "Either log out and back in, or test in a nested shell:"
-echo ""
-echo "  sudo apt install -y mutter-dev-bin   # if not already installed"
-echo "  dbus-run-session gnome-shell --devkit --wayland"
-echo ""
-echo "Inside the nested session, open a terminal and run:"
-echo "  gnome-extensions enable $EXTENSION_UUID"
-echo ""
-echo "Watch logs with:"
-echo "  journalctl -f -o cat /usr/bin/gnome-shell"
+echo "--------------------------------------------------"
+echo "Extension installed to $EXT_DIR."
+echo "Since you are on Wayland, you MUST log out and log back in for GNOME Shell to recognize the new extension."
+echo "After logging back in, you can enable it with:"
+echo "  gnome-extensions enable $UUID"
+echo "Or use the 'Extensions' (gnome-shell-extension-prefs) application."
+echo "--------------------------------------------------"
