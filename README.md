@@ -23,11 +23,17 @@ To deploy local changes to your GNOME extensions directory:
 Since you are on **Wayland**, you must log out and back in for GNOME Shell to pick up changes to `extension.js` in your main session. 
 
 **Pro-Tip: Nested Wayland Session (No Logout Required)**
-To rapidly test changes without closing all your apps, run a nested GNOME shell inside a window:
+To rapidly test changes without closing all your apps, run a nested GNOME shell inside a window.
+
+Prerequisite: You must have the `mutter` development kit installed:
+- Debian/Ubuntu: `sudo apt install mutter-dev-bin`
+- Fedora: `sudo dnf install mutter-devel`
+
+Run the nested session:
 ```bash
-dbus-run-session -- gnome-shell --nested --wayland
+dbus-run-session -- gnome-shell --wayland --devkit
 ```
-This boots up a separate GNOME environment where you can safely test the extension.
+This boots up a separate GNOME environment where you can safely test the extension. (Note: The window resolution is currently fixed at 1280x800 in GNOME 49).
 
 For quick iterations (GSettings changes or minor logic), you can try toggling it:
 ```bash

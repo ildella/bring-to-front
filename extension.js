@@ -65,6 +65,7 @@ const toggleFront = () => {
   const frontH = _settings.get_int('front-height')
   const workArea = getWorkAreaForWindow(metaWindow)
   const frontRect = centeredRect(workArea, frontW, frontH)
+  console.log(`[BringToFront] ${frontW}x${frontH}`)
 
   const state = _windowState.get(metaWindow)
 
