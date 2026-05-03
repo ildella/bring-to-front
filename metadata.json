@@ -3,7 +3,7 @@
   "name": "Bring to Front",
   "description": "Toggle focused window between resting and front (centered, fixed size) positions with a keyboard shortcut.",
   "version": 1,
-  "version-name": "1.0.0",
+  "version-name": "1.1.0-dev",
   "url": "https://github.com/ildella/bring-to-front",
   "shell-version": ["45", "46", "47", "48", "49", "50"],
   "settings-schema": "org.gnome.shell.extensions.bring-to-front"
