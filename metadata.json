@@ -1,7 +1,7 @@
 {
   "uuid": "bring-to-front@ildella.github.com",
   "name": "Bring to Front",
-  "description": "Toggle focused window between resting and front (centered, fixed size) positions with a keyboard shortcut.",
+  "description": "Toggle focused window between resting, front (centered, standard size), and front-large positions. Default shortcut: Ctrl+Alt+F.",
   "version": 1,
   "version-name": "1.1.0-dev",
   "url": "https://github.com/ildella/bring-to-front",

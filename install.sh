@@ -18,7 +18,7 @@ echo "Installing GNOME extension '$UUID'..."
 mkdir -p "$EXT_DIR"
 
 # Copy essential files
-cp extension.js metadata.json "$EXT_DIR/"
+cp extension.js metadata.json prefs.js "$EXT_DIR/"
 
 # Handle schemas
 if [ -d "schemas" ]; then
