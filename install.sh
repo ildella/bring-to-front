@@ -2,7 +2,14 @@
 
 set -e
 
-UUID="bring-to-front@local"
+# Ensure jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "Error: 'jq' is not installed. Please install it to continue."
+    exit 1
+fi
+
+# Extract UUID dynamically from metadata.json
+UUID=$(jq -r '.uuid' metadata.json)
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID"
 
 echo "Installing GNOME extension '$UUID'..."

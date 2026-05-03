@@ -32,11 +32,12 @@ const frameRectOf = (metaWindow) => {
 
 const isFront = (metaWindow, frontRect) => {
   const r = metaWindow.get_frame_rect()
+  const tol = 40
   return (
-    r.x === frontRect.x &&
-    r.y === frontRect.y &&
-    r.width === frontRect.width &&
-    r.height === frontRect.height
+    Math.abs(r.x - frontRect.x) <= tol &&
+    Math.abs(r.y - frontRect.y) <= tol &&
+    Math.abs(r.width - frontRect.width) <= tol &&
+    Math.abs(r.height - frontRect.height) <= tol
   )
 }
 
@@ -108,6 +109,7 @@ const untrackAll = () => {
 
 export default class BringToFrontExtension extends Extension {
   enable() {
+    console.log(`[BringToFront] Extension enabled (v${this.metadata.version})`);
     _settings = this.getSettings()
     _windowState = new Map()
     _destroySignals = new Map()
