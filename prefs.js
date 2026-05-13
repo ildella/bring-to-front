@@ -77,5 +77,17 @@ export default class BringToFrontPreferences extends ExtensionPreferences {
     })
     settings.bind('front-large-height', rowHeightB, 'value', Gio.SettingsBindFlags.DEFAULT)
     groupSizes.add(rowHeightB)
+
+    const rowEnableSmallCenter = new Adw.ActionRow({
+      title: 'Enable Small Center',
+      subtitle: 'Include the smaller centered window size in the shortcut cycle.',
+    })
+    const switchEnableSmallCenter = new Gtk.Switch({
+      valign: Gtk.Align.CENTER,
+    })
+    rowEnableSmallCenter.add_suffix(switchEnableSmallCenter)
+    rowEnableSmallCenter.set_activatable_widget(switchEnableSmallCenter)
+    settings.bind('enable-small-center', switchEnableSmallCenter, 'active', Gio.SettingsBindFlags.DEFAULT)
+    groupSizes.add(rowEnableSmallCenter)
   }
 }

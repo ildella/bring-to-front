@@ -1,6 +1,6 @@
 # Bring to Front
 
-Toggle focused windows between resting, centered (standard size), and centered (large size) positions with a keyboard shortcut.
+Toggle focused windows between resting, centered (large size), and optionally centered (small size) positions with a keyboard shortcut.
 
 [**Install from GNOME Extensions Store**](https://extensions.gnome.org/extension/9826/bring-to-front/)
 
@@ -50,4 +50,3 @@ gnome-extensions list
 # Check info/status
 gnome-extensions info bring-to-front@ildella.github.com
 ```
-

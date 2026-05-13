@@ -2,8 +2,9 @@
 // GNOME 49+ / Wayland — ESModule format (required since GNOME 45)
 //
 // Window states we care about:
-//   resting  — the user's free-floating size/position (saved before going front)
-//   front    — centered, fixed size, toggled by shortcut
+//   resting      — the user's free-floating size/position (saved before going front)
+//   front-small  — centered, fixed size, optional step in the cycle
+//   front-large  — centered, fixed size, first centered step in the cycle
 //   maximised / minimised — GNOME native, untouched
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
@@ -65,6 +66,7 @@ const toggleFront = () => {
   const frontH = _settings.get_int('front-height')
   const frontLargeW = _settings.get_int('front-large-width')
   const frontLargeH = _settings.get_int('front-large-height')
+  const enableSmallCenter = _settings.get_boolean('enable-small-center')
 
   const workArea = getWorkAreaForWindow(metaWindow)
   const frontRect = centeredRect(workArea, frontW, frontH)
@@ -73,23 +75,29 @@ const toggleFront = () => {
   const state = _windowState.get(metaWindow)
 
   if (state) {
-    if (isFront(metaWindow, frontRect)) {
-      // In Size A -> move to Size B
-      metaWindow.move_resize_frame(false, frontLargeRect.x, frontLargeRect.y, frontLargeRect.width, frontLargeRect.height)
-    } else if (isFront(metaWindow, frontLargeRect)) {
-      // In Size B -> restore resting
+    if (isFront(metaWindow, frontLargeRect)) {
+      // In large center -> move to small center, or restore when disabled
+      if (enableSmallCenter) {
+        metaWindow.move_resize_frame(false, frontRect.x, frontRect.y, frontRect.width, frontRect.height)
+      } else {
+        const r = state.resting
+        metaWindow.move_resize_frame(false, r.x, r.y, r.width, r.height)
+        _windowState.delete(metaWindow)
+      }
+    } else if (isFront(metaWindow, frontRect)) {
+      // In small center -> restore resting
       const r = state.resting
       metaWindow.move_resize_frame(false, r.x, r.y, r.width, r.height)
       _windowState.delete(metaWindow)
     } else {
-      // Moved manually — start over at Size A
+      // Moved manually — start over at large center
       _windowState.set(metaWindow, { resting: frameRectOf(metaWindow) })
-      metaWindow.move_resize_frame(false, frontRect.x, frontRect.y, frontRect.width, frontRect.height)
+      metaWindow.move_resize_frame(false, frontLargeRect.x, frontLargeRect.y, frontLargeRect.width, frontLargeRect.height)
     }
   } else {
-    // Save current resting position, move to Size A
+    // Save current resting position, move to large center
     _windowState.set(metaWindow, { resting: frameRectOf(metaWindow) })
-    metaWindow.move_resize_frame(false, frontRect.x, frontRect.y, frontRect.width, frontRect.height)
+    metaWindow.move_resize_frame(false, frontLargeRect.x, frontLargeRect.y, frontLargeRect.width, frontLargeRect.height)
   }
 }
 

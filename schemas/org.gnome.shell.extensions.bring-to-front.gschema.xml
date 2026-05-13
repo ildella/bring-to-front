@@ -28,5 +28,10 @@
       <summary>Front position window (large) height (px)</summary>
     </key>
 
+    <key name="enable-small-center" type="b">
+      <default>false</default>
+      <summary>Enable small center position</summary>
+    </key>
+
   </schema>
 </schemalist>
